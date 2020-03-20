@@ -26,6 +26,5 @@ int main(int argc, int argv[]){
 	push(&stack, 5);
 	push(&stack, 12);
 
-	FILE
 	printf("%d\n", pop(&stack));
 }
