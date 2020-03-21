@@ -1,23 +1,21 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+void merge(int array[], int start, int middle, int end){
 
-int * merge(int left[], int right[], int start, int middle, int end);
-int * mergeSort(int array[], int start, int end);
-void printArray(int array[]);
-
-int main(){
-	int array[] = {5, 4, 3, 2, 1};
-	int *tmp = mergeSort(array, 0, 4);
-	printArray(tmp);
-}
-
-int * merge(int left[], int right[], int start, int middle, int end){
-	static int array[5];
-	int i = 0; int j = 0;
-	int k = start;
+	int i,j;
 	int n1 = middle - start + 1;
 	int n2 = end - middle;
+	int left[n1];
+	int right[n2];
+
+	for (i = 0; i < n1; i++)
+		left[i] = array[i+start];
+	for (j = 0; j < n2; j++)
+		right[j] = array[j+middle+1];
+
+	i = 0; j = 0;	int k = start;
+
 	while (i < n1 && j < n2){	
 		if (left[i] < right[j]){
 			array[k] = left[i];
@@ -39,25 +37,27 @@ int * merge(int left[], int right[], int start, int middle, int end){
 		j++;
 		k++;
 	}
-	return array;	
+	return;	
 }
 
-int * mergeSort(int array[], int start, int end){
+void mergeSort(int array[], int start, int end){
 	if (start >= end)
-		return array;
+		return;
 	int middle = start + (end - start)/2;
-	int * l = mergeSort(array, start, middle);
-	int * r = mergeSort(array, middle + 1, end);
-	printArray(l);
-	printArray(r);
-	int * tmp = merge(l, r, start, middle, end);
-	printArray(tmp);
-	printf("\n");
-	return tmp;
+	mergeSort(array, start, middle);
+	mergeSort(array, middle + 1, end);
+	merge(array, start, middle, end);
+	return;
 }
 
-void printArray(int array[]){
-	for (int i = 0; i < 5; i++)
+void printArray(int array[], int size){
+	for (int i = 0; i < size; i++)
         printf("%d ", array[i]);
 	printf("\n");
+}
+
+int main(){
+	int array[] = {5, 4, 3, 2, 1};
+	mergeSort(array, 0, 4);
+	printArray(array, 5);
 }
